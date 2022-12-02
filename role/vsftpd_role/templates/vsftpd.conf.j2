@@ -1,0 +1,33 @@
+# Настройте сервер для запуска
+listen=YES
+listen_ipv6=NO
+# Настройте доступ к FTP-серверу, чтобы разрешить вход только локальным пользователям:
+anonymous_enable=NO
+local_enable=YES
+# Разрешите пользователям работать в файловой системе (загружать и удалять файлы):
+write_enable=YES
+# Назначьте права для новых файлов:
+local_umask=022
+# Настройте сообщение о выборе каталога после регистрации:
+dirmessage_enable=YES
+# Разрешите серверу использовать локальный часовой пояс:
+use_localtime=YES
+# Настройте запись всех передач файлов в лог:
+xferlog_enable=YES
+# Задайте путь хранения логов и их формат:
+xferlog_file=/var/log/vsftpd.log
+xferlog_std_format=YES
+# Настройте порт 20 для передачи данных:
+connect_from_port_20=YES
+# Откройте пользователям доступ только к своим домашним каталогам командами:
+chroot_local_user=YES
+allow_writeable_chroot=YES
+# Настройте возможность использования PAM-сервиса:
+pam_service_name=vsftpd
+# Разрешите аутентификацию на FTP-сервере только тем пользователям, которые указаны в файле userlist с помощью команд:
+userlist_enable=YES
+userlist_file=/etc/vsftpd.userlist
+userlist_deny=NO
+#
+rsa_cert_file=/etc/ssl/private/vsftpd.pem
+rsa_private_key_file=/etc/ssl/private/vsftpd.pem

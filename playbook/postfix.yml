@@ -1,0 +1,35 @@
+- name: Install and delete postfix
+  hosts: ubuntu
+  become: true
+  tasks:
+    - name: Update packages
+      ansible.builtin.apt:
+        force_apt_get: true
+        state: latest
+        update_cache: true
+      tags:
+        - init postfix
+
+    - name: Install postfix
+      ansible.builtin.apt:
+        name:  postfix
+        state: latest
+        update_cache: true
+      tags:
+        - init postfix
+
+    - name: Start postfix
+      service:
+        name: postfix
+        state: started
+        enabled: yes
+      tags:
+        - init postfix
+
+    - name: Uninstall postfix
+      ansible.builtin.apt:
+        name: postfix
+        state: absent
+        update_cache: true
+      tags:
+        - drop postfix

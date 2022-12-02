@@ -1,0 +1,14 @@
+---
+# handlers file for vsftpd_role
+- name: Restart vsftpd
+  ansible.builtin.service:
+    name: vsftpd
+    state: restarted
+- name: Reload ssh
+  ansible.builtin.service:
+    name: ssh
+    state: re
+- name: Restart ufw
+  community.general.ufw:
+    name: ufw
+    state: restarted   

@@ -1,0 +1,3 @@
+---
+# vars file for vsftpd_role
+filename_ssl_key: vsftpd.pem
