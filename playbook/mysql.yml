@@ -1,6 +1,6 @@
 ---
 - name: Install mysql and start servise
-  hosts: ubuntu
+  hosts: localhost
   become: yes
   tasks:
     - name: Install aptitude

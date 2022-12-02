@@ -1,6 +1,6 @@
 ---
 - name: Install Docker
-  hosts: ubuntu
+  hosts: localhost
   become: true
   tasks:
     - name: Install aptitude
