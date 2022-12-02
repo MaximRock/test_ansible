@@ -1,0 +1,126 @@
+---
+- hosts: 
+    - test
+  roles: 
+    - vsftpd_role
+  become: yes  
+
+
+#- name: Install vsftpd
+#  hosts: test
+#  become: yes
+#  tasks: 
+#    - name: Install aptitude
+#      ansible.builtin.apt:
+#        name: aptitude
+#        state: latest
+#        update_cache: true
+#
+#    - name: Install vsftpd
+#      ansible.builtin.apt:
+#        name: vsftpd
+#        state: present
+#        update_cache: true
+
+#    - name: Install configuration file
+#      ansible.builtin.template:
+#        src: vsftpd.conf.j2
+#        dest: "{{ path_vsftpd_conf }}"
+#        mode: '0600'
+
+#    - name: Start vsftpd
+#      ansible.builtin.service:
+#        name: vsftpd
+#        state: started
+#        enabled: true
+
+#    - name: Install Python pip
+#      ansible.builtin.apt:
+#        name: python3-pip
+#        state: present
+#        update_cache: true   
+
+#    - name: Install dependencies
+#      ansible.builtin.pip:
+#        state: forcereinstall
+#        name:
+#          - pyOpenSSL == 22.1.0
+
+#    - name: Generate an OpenSSL private key
+#      ansible.builtin.openssl_privatekey:
+#        path: "{{ path_ssl_private_key }}/{{ filename_ssl_key }}"
+#        size: {{size}}
+#        type: {{type}} 
+#        backup: yes
+
+#    - name: Generate a OpenSSL csr
+#      ansible.builtin.openssl_csr:
+#        path: "{{ path_ssl_private_key }}/{{ filename_ssl_key }}"
+#        privatekey_path: "{{ path_ssl_private_key }}/{{ filename_ssl_key }}"
+#        country_name: {{ country_name }}
+#        organization_name: {{ organization_name }}
+#        common_name: {{ common_name }}
+#        subject: {{subject}}
+#        subject_alt_name: {{ subject_alt_name }}
+
+#    - name: Generate a Self Signed OpenSSL certificate
+#      ansible.builtin.openssl_certificate:
+#        path: "{{ path_ssl_private_key }}/{{ filename_certificate }}"
+#        privatekey_path: "{{ path_ssl_private_key }}/{{ filename_ssl_key }}"
+#        csr_path: "{{ path_ssl_private_key }}/{{ filename_ssl_key }}"
+#        provider: selfsigned
+
+#    - name: Create user
+#        ansible.builtin.user:
+#          name: {{ user_name }}
+#          password:  "{{ user_password | password_hash('sha512') }}"
+#          shell: /bin/false
+
+#    - name: Deny ftpuser for ssh
+#      blockinfile:
+#        path: /etc/ssh/sshd_config
+#        state: present
+#        insertafter: EOF
+#        block: |
+#          DenyUsers {{ user_name }}
+
+#    - name: Add /bin/false for ftpuser
+#      blockinfile:
+#        path: /etc/shells
+#        state: present
+#        insertafter: EOF
+#        block: |
+#          /bin/false
+#
+#    - name: Create file vsftpd.userlist
+#      ansible.builtin.template:
+#        src: vsftpd.userlist.j2
+#        dest: /etc/vsftpd.userlist
+#        mode: '0600'
+#
+#    - name: Allow all access to tcp port
+#      community.general.ufw:
+#        rule: allow
+#       port: {{ item }}
+#        proto: tcp            
+#      loop:
+#        - "20"
+#        - "21"
+#        - "990"
+#        - "40000:50000"
+
+#  handlers:
+#  - name: Restart vsftpd
+#      ansible.builtin.service:
+#        name: vsftpd
+#        state: restarted
+#    - name: Reload ssh
+#      ansible.builtin.service:
+#        name: ssh
+#        state: reloaded
+#    - name: Restart ufw
+#      community.general.ufw:
+#        name: ufw
+#       state: restarted       
+
+
