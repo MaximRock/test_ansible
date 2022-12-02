@@ -1,0 +1,46 @@
+---
+- name: Install mysql and start servise
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Install aptitude
+      apt:
+        name: aptitude
+        state: latest
+        update_cache: true
+
+    - name: Installing Mysql and dependencies
+      package:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop:
+       - mysql-server
+       - mysql-client
+       - python3-mysqldb
+       - libmysqlclient-dev
+
+    - name: start and enable mysql service
+      service:
+        name: mysql
+        state: started
+        enabled: yes
+
+    - name: creating mysql user (medium_post)
+      mysql_user:
+        name: max
+        password: 123456
+        priv: '*.*:ALL'
+        host: '%'
+        state: present
+
+    - name: creating medium_db
+      mysql_db:
+        name: db_1
+        state: present
+
+  handlers:
+    - name: Restart mysql
+      service:
+        name: mysql
+        state: restarted
