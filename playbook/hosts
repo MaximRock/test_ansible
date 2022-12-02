@@ -2,7 +2,7 @@
 localhost
 
 [ubuntu]
-158.160.47.60
+ubuntu_22.04 ansible_host=admin@51.250.68.105
 
 [ubuntu:vars]
 super_group = sudo

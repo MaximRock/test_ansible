@@ -1,6 +1,6 @@
 ---
 - name: Install Docker
-  hosts: localhost
+  hosts: ubuntu
   become: true
   tasks:
     - name: Install aptitude
@@ -39,9 +39,14 @@
 
     - name: Update apt and install docker-ce
       apt:
-        name: docker-ce
+        name: "{{ item }}"
         state: latest
         update_cache: true
+      loop:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+        - docker-compose-plugin
       tags:
         - install docker
 
@@ -52,7 +57,12 @@
 
     - name: Uninstall Docker
       apt:
-        name: docker-ce
+        name: "{{ item }}"
         state: absent
+      loop:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+        - docker-compose-plugin
       tags:
         - drop docker

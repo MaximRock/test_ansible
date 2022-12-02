@@ -1,0 +1,32 @@
+---
+- name: Create new user
+  hosts: ubuntu
+  become: yes
+  gather_facts: false
+  vars:
+    username: user1
+    userpass: "!vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          64353332663366323933393861323234623732326661643532333265303866376665383232636263
+          3161333832666463356164313462333830613231616431620a636635303962316163346166396432
+          64386331343436353866613639663636393139336561316466636334643830656534613565666433
+          3465656237313036390a393231663930353332383662663732383538326630343763323164353066
+          3034"
+    super_group: sudo
+  tasks:
+    - name: New user
+      ansible.builtin.user:
+        name: "{{username}}"
+        comment: new user user1
+        state: present
+        shell: /bin/bash
+        password: "{{ userpass | password_hash('sha512') }}"
+        update_password: on_create
+        groups: "{{ super_group }}"
+        append: yes
+
+    - name: Deploy SSH Public key
+      ansible.posix.authorized_key:
+        user: "{{ username }}"
+        state: present
+        key: "{{ lookup('file', '/home/{{ username }}/.ssh/id_rsa.pub') }}"
