@@ -1,6 +1,6 @@
 ---
 - hosts: 
-    - test
+    - ubuntu
   roles: 
     - vsftpd_role
   become: yes  

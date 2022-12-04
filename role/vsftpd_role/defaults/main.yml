@@ -17,8 +17,9 @@ common_name: mysite.com
 subject: CN=mysite.com,ST=MOW,L=Moscow
 subject_alt_name: "DNS:mysite.com,DNS:www.mysite.com"
 
-#openssl_certificate
+# openssl_certificate
 filename_certificate: vsftpd_cert.pem
 
+# user vsftpd
 user_name: ftpuser
 user_password: "user_password"

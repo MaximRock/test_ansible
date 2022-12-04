@@ -1,38 +1,36 @@
 Role Name
 =========
 
-A brief description of the role goes here.
-
-Requirements
-------------
-
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Установка и настройка VSFTPD
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+# path vsftpd.conf
+path_vsftpd_conf: "/etc/vsftpd.conf"
+---------------
 
-Dependencies
-------------
+# openssl_privatekey
+path_ssl_private_key: "/etc/ssl/private"
+filename_ssl_key: vsftpd.pem
+size: 2048
+type: RSA
+---------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+# openssl_csr
+filename_ssl_csr: vsftpd.csr
+country_name: RU
+organization_name: test
+common_name: mysite.com
+subject: CN=mysite.com,ST=MOW,L=Moscow
+subject_alt_name: "DNS:mysite.com,DNS:www.mysite.com"
+---------------
 
-Example Playbook
-----------------
+# openssl_certificate
+filename_certificate: vsftpd_cert.pem
+---------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
-
-License
--------
-
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+# user vsftpd
+user_name: ftpuser
+user_password: "user_password"
+---------------
