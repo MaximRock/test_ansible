@@ -1,0 +1,42 @@
+---
+# tasks file for dnsmasq_role
+- name: Stop and disable systemd-resolved
+  ansible.builtin.systemd:
+    name: systemd-resolved
+    state: stopped
+
+- name: Config file resolv.conf
+  ansible.builtin.template:
+    src: resolv.conf.j2
+    dest: "{{ path_resolv_conf }}"
+
+- name: Install aptitude
+  ansible.builtin.apt:
+    name: aptitude
+    state: latest
+    update_cache: true
+
+- name: Install dnsmasq
+  ansible.builtin.apt:
+    name: dnsmasq
+    state: present
+    update_cache: true
+
+- name: starts and allows the Dnsmasq service to start on system boot
+  shell: systemctl status dnsmasq
+
+- name: Create dnsmasq.conf
+  ansible.builtin.template:
+    src: dnsmasq.conf.j2
+    dest: /etc/dnsmasq.conf
+
+- name: IP-address dns servera
+  ansible.builtin.template:
+    src: resolv.conf_2.j2
+    dest: "{{ path_resolv_conf }}"
+
+- name: Allow all access to tcp port 53
+  community.general.ufw:
+    rule: allow
+    port: "53"
+    proto: udp

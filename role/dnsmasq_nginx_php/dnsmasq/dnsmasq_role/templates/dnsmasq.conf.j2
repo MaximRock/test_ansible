@@ -1,0 +1,7 @@
+port=53
+domain-needed
+bogus-priv
+listen-address=127.0.0.1,{{ hostvars[ 'ubuntu_22.04' ].ansible_default_ipv4.address }}
+expand-hosts
+domain=google.com
+cache-size=1000

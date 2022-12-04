@@ -1,0 +1,17 @@
+---
+- name: Install aptitude
+  ansible.builtin.apt:
+    name: aptitude
+    state: latest
+    update_cache: true
+
+- name: Install nginx
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+    update_cache: true
+
+- name: Enable port 80        
+  community.general.ufw:
+    rule: allow
+    name: 'Nginx HTTP'

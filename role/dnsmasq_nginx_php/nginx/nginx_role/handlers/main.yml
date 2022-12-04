@@ -1,0 +1,9 @@
+---
+- name: Restart nginx
+  ansible.builtin.service:
+    name: nginx
+    state: restarted
+- name: Restart ufw 
+  ansible.builtin.service:
+    name: ufw
+    state: reload

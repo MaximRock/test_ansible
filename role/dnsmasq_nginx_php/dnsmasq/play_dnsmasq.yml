@@ -1,0 +1,6 @@
+---
+- hosts: 
+    - ubuntu
+  roles:
+    - dnsmasq_role
+  become: yes 

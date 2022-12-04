@@ -1,0 +1,6 @@
+---
+- hosts: 
+    - ubuntu
+  roles:
+    - superuser_role
+  become: yes 
