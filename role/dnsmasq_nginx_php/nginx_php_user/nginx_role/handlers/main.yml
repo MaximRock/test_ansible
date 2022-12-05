@@ -3,7 +3,9 @@
   ansible.builtin.service:
     name: nginx
     state: restarted
+    enabled: yes
 - name: Restart ufw 
   ansible.builtin.service:
     name: ufw
     state: reload
+    enabled: yes

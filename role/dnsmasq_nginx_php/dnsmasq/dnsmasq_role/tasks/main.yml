@@ -1,5 +1,4 @@
 ---
-# tasks file for dnsmasq_role
 - name: Stop and disable systemd-resolved
   ansible.builtin.systemd:
     name: systemd-resolved
@@ -21,7 +20,7 @@
     name: dnsmasq
     state: present
     update_cache: true
-  notify: Restart nginx
+  notify: Restart dnsmasq
 
 - name: Create dnsmasq.conf
   ansible.builtin.template:
