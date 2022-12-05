@@ -21,9 +21,7 @@
     name: dnsmasq
     state: present
     update_cache: true
-
-- name: starts and allows the Dnsmasq service to start on system boot
-  shell: systemctl status dnsmasq
+  notify: Restart nginx
 
 - name: Create dnsmasq.conf
   ansible.builtin.template:

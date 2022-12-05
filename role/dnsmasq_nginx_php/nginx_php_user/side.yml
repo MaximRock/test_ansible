@@ -3,4 +3,6 @@
     - ubuntu
   roles:
     - superuser_role
-  become: yes 
+    - nginx_role
+    - php_fpm_role
+  become: yes   

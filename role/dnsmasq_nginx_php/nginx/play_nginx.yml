@@ -1,6 +1,0 @@
----
-- hosts: 
-    - ubuntu
-  roles:
-    - nginx_role
-  become: yes 

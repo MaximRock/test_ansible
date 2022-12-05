@@ -1,5 +1,0 @@
-[test]
-localhost
-
-[ubuntu] 
-ubuntu_22.04 ansible_host=admin@158.160.42.82
