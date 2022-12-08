@@ -1,0 +1,83 @@
+---
+- name: Installation and configuration nginx
+  hosts: ubuntu
+  become: yes
+  vars:
+    content: "<?php 
+              echo phpinfo();
+          ?>"
+  tasks:
+    - name: Install aptitude
+      ansible.builtin.apt:
+        name: aptitude
+        state: latest
+        update_cache: true
+
+    - name: Install nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+        update_cache: true
+
+    - name: Enable port 80        
+      community.general.ufw:
+        rule: allow
+        name: 'Nginx HTTP'
+
+    - name: Create directory
+      ansible.builtin.file:
+        path: "/etc/nginx/sites-available/testdomain.ru.conf"
+        state: directory
+        mode: 0755
+
+    - name: Create nginx.conf
+      ansible.builtin.template:
+        src: testdomain.ru.conf.j2
+        dest: "/etc/nginx/sites-available/testdomain.ru.conf"   
+
+    - name: Create symbolic link 
+      ansible.builtin.file:
+        src: "/etc/nginx/sites-available/testdomain.ru.conf"
+        dest: "/etc/nginx/sites-enabled/testdomain.ru.conf"
+        state: link
+
+    - name: Create directory
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: test
+        group: test
+        mode: 0755
+      loop:
+        - "/home/test/www/testdomain.ru/"
+        - "/home/test/tmp/"
+
+    - name: Create file info.php
+      ansible.builtin.copy:
+        dest: "/home/test/www/testdomain.ru/index.php"
+        content: "{{ content }}"    
+
+    - name: Owner directory
+      ansible.builtin.file:
+        path: "/home/test/www/"
+        owner: test
+        group: test
+
+    - name: Add user www-data group
+      ansible.builtin.user:
+        name: www-data
+        groups: test
+        append: yes
+      notify:
+        - Restart nginx
+        - Restart ufw 
+
+  handlers:
+  - name: Restart nginx
+    ansible.builtin.service:
+      name: nginx
+      state: restarted
+  - name: Restart ufw 
+    ansible.builtin.service:
+      name: ufw
+      state: reload          
