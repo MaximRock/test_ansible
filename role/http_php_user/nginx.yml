@@ -1,6 +1,6 @@
 ---
 - name: Installation and configuration nginx
-  hosts: ubuntu
+  hosts: test
   become: yes
   vars:
     content: "<?php 
@@ -27,18 +27,19 @@
     - name: Create directory
       ansible.builtin.file:
         path: "/etc/nginx/sites-available/testdomain.ru.conf"
-        state: directory
+        state: touch
         mode: 0755
 
     - name: Create nginx.conf
       ansible.builtin.template:
-        src: testdomain.ru.conf.j2
+        src: "~/ansible/testdomain.ru.conf.j2"
         dest: "/etc/nginx/sites-available/testdomain.ru.conf"   
 
     - name: Create symbolic link 
       ansible.builtin.file:
         src: "/etc/nginx/sites-available/testdomain.ru.conf"
-        dest: "/etc/nginx/sites-enabled/testdomain.ru.conf"
+        dest: "/etc/nginx/sites-enabled"
+        owner: root
         state: link
 
     - name: Create directory
@@ -76,8 +77,10 @@
   - name: Restart nginx
     ansible.builtin.service:
       name: nginx
-      state: restarted
+      state: reloaded
+      enabled: yes
   - name: Restart ufw 
     ansible.builtin.service:
       name: ufw
-      state: reload          
+      state: reloaded
+      enabled: yes          

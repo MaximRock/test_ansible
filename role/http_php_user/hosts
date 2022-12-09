@@ -6,3 +6,6 @@ nginx ansible_host=admin@51.250.66.186
 
 [ubuntu:vars]
 username=test
+
+[test:vars]
+username=test
