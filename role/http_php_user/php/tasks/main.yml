@@ -11,9 +11,9 @@
     state: present
     update_cache: true
 
-# - name: Create file pool.php
-#   ansible.builtin.template:
-#     src: "testdomain.loc.conf.j2"
-#     dest: "{{ path_config_template }}/www.conf"
-#   notify:
-#     - Restart php8
+- name: Create file pool.php
+  ansible.builtin.template:
+    src: "testdomain.loc.conf.j2"
+    dest: "{{ path_config_template }}/www.conf"
+  notify:
+    - Restart php8
