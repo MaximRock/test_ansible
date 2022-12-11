@@ -1,0 +1,13 @@
+---
+- name: Installation nginx user
+  hosts: nginx
+  become: yes
+  roles:
+    - users
+    - http
+- name: Installation php-fpm user
+  hosts: php
+  become: yes
+  roles:
+    - users
+    - php

@@ -1,0 +1,35 @@
+---
+- name: Install aptitude
+  ansible.builtin.apt:
+    name: aptitude
+    state: latest
+    update_cache: true
+
+- name: Install nginx
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+    update_cache: true
+
+- name: Enable port 80        
+  community.general.ufw:
+    rule: allow
+    name: 'Nginx HTTP'
+  notify:
+    - Restart ufw
+
+- name: Create directory testdomain
+  ansible.builtin.file:
+    path: "/var/www/testdomain.loc/html"
+    state: directory
+    mode: 0755
+
+- name: Create file info.php
+  ansible.builtin.copy:
+    dest: "/var/www/testdomain.loc/html/index.php"
+    content: "{{ content }}"
+
+- name: Create nginx.conf
+  ansible.builtin.template:
+    src: "{{ path_src }}"
+    dest: "{{ path_dest }}"

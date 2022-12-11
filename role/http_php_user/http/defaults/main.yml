@@ -1,0 +1,10 @@
+---
+content: "<?php 
+              echo phpinfo();
+           ?>"
+
+# path_src template
+path_src: "testdomain.loc.conf.j2"
+
+# path_dest template
+path_dest: "/etc/nginx/sites-available/default"

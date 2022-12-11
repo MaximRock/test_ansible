@@ -2,7 +2,7 @@
 - hosts: 
     - ubuntu
   roles:
-    - superuser_role
+    #- superuser_role
     - nginx_role
     - php_fpm_role
   become: yes   

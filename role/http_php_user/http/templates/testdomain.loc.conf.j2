@@ -39,12 +39,12 @@ server {
         # include snippets/snakeoil.conf;
         
         #root /var/www/html;
-        root /home/test/www/testdomain.ru;
+        root /var/www/testdomain.loc/html;
 
         # Add index.php to the list if you are using PHP
         index index.php index.html index.htm index.nginx-debian.html;
 
-        server_name testdomain.ru www.testdomain.ru;
+        server_name testdomain.loc;
 
         location / {
                 # First attempt to serve request as file, then
@@ -56,11 +56,17 @@ server {
         #
         location ~ \.php$ {
                include snippets/fastcgi-php.conf;
+        #       include /etc/nginx/fastcgi_params; 
         #
         #       # With php-fpm (or other unix sockets):
         #      fastcgi_pass unix:/run/php/php8.1-fpm.sock;
         #       # With php-cgi (or other tcp sockets):
-               fastcgi_pass 127.0.0.1:9000;
+               fastcgi_pass    {{ hostvars[ 'test1' ].ansible_default_ipv4.address }}:9000;
+        #       fastcgi_index   index.php;
+               fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        #       include         fastcgi_params;
+              
+
         }
 
         # deny access to .htaccess files, if Apache's document root

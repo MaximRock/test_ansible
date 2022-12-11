@@ -1,0 +1,19 @@
+---
+# tasks file for users
+- name: Create user and ssh key
+  ansible.builtin.user:
+    name: "{{ username }}"
+    password: "{{ password | password_hash('sha512')}}"
+    create_home: true
+    shell: /bin/bash
+    groups: sudo
+    generate_ssh_key: yes
+    ssh_key_bits: "{{ ssh_key_bits }}"
+    ssh_key_file: "{{ ssh_key_file }}"
+    append: true
+
+- name: Deploy SSH public key
+  ansible.builtin.authorized_key:
+    user: "{{ username }}"
+    state: present
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"

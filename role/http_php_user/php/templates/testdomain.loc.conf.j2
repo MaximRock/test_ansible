@@ -1,0 +1,15 @@
+[www]
+;listen = /var/run/php/sampledomain.ru.sock
+listen = {{ hostvars[ 'test2' ].ansible_default_ipv4.address }}:9000
+listen.owner = www-data
+listen.group = www-data
+listen.mode = 0666
+user = www-data
+group = www-data
+chdir = /var/www/testdomain.loc/html
+
+pm = dynamic
+pm.max_children = 7
+pm.start_servers = 3
+pm.min_spare_servers = 2
+pm.max_spare_servers = 4
