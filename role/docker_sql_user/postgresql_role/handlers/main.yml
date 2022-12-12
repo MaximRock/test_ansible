@@ -1,2 +1,5 @@
 ---
-# handlers file for postgresql_role
+- name: Restart postgres
+  ansible.builtin.service:
+    name: postgres
+    state: restarted 

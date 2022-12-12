@@ -1,0 +1,12 @@
+---
+- name: Installation and configuration posgresql role
+  hosts: database
+  become: true
+  roles:
+    - postgresql_role
+
+- name: Installation and configuration docker role
+  hosts: app
+  become: true
+  roles:
+    - docker_role

@@ -2,6 +2,10 @@
 - name: Installation PostgreSql
   hosts: database
   become: true
+  vars:
+    db_name: testdb
+    db_user: myuser
+    db_password: Qwerty123
   tasks:
     - name: Install packages
       ansible.builtin.apt:
@@ -34,4 +38,52 @@
         name: postgresql
         state: started
         enabled: true
+
+    - name: Utility present
+      ansible.builtin.package:
+        name: python3-psycopg2
+        state: present
+
+    - name: Create db
+      community.postgresql.postgresql_db:
+        state: present
+        name: "{{ db_name }}"
+      become: true
+      become_user: postgres
+
+    - name: Create db user  
+      community.postgresql.postgresql_user:
+        state: present
+        name: "{{ db_user }}"
+        password: "{{ db_password }}"
+      become: true
+      become_user: postgres
+
+    - name: Adding privileges
+      community.postgresql.postgresql_privs:
+        type: database
+        database: "{{ db_name }}"
+        roles: "{{ db_user }}"
+        grant_option: false
+        privs: all
+      become: true
+      become_user: postgres
+
+    - name: Create table
+      community.postgresql.postgresql_table:
+        name: test_table
+        columns:
+          - surname
+          - name
+          - date_birth
+          - organization
+        tablespace: ssd  
+
+  handlers: 
+  - name: Restart postgres
+    ansible.builtin.service:
+      name: postgres
+      state: restarted 
+      
+              
         
