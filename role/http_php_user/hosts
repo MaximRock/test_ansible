@@ -2,10 +2,10 @@
 localhost
 
 [nginx]
-test1 ansible_host=admin@51.250.13.171
+test1 ansible_host=admin@10.128.0.30
 
 [php]
-test2 ansible_host=admin@51.250.15.113
+test2 ansible_host=admin@10.128.0.31
 
 [nginx:vars]
 username=test_nginx
